@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    app:startDestination="@id/jobListFragment">
+
+    <fragment
+        android:id="@+id/jobListFragment"
+        android:name="com.durbindevs.tradiediary.ui.fragments.JobListFragment"
+        android:label="Jobs">
+        <action
+            android:id="@+id/action_jobListFragment_to_addJobFragment"
+            app:destination="@id/addJobFragment" />
+        <action
+            android:id="@+id/action_jobListFragment_to_editJobFragment"
+            app:destination="@id/editJobFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addJobFragment"
+        android:name="com.durbindevs.tradiediary.ui.fragments.AddJobFragment"
+        android:label="Add Job" >
+        <action
+            android:id="@+id/action_addJobFragment_to_jobListFragment"
+            app:destination="@id/jobListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editJobFragment"
+        android:name="com.durbindevs.tradiediary.ui.fragments.EditJobFragment"
+        android:label="Edit Job" />
+</navigation>

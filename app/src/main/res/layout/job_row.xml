@@ -20,24 +20,24 @@
 
     <TextView
         android:id="@+id/tvJobTitle"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/tvJobLocation"
         app:layout_constraintTop_toBottomOf="@+id/tvJobLocation"
         tools:text="Job Title" />
 
     <TextView
         android:id="@+id/tvJobLocation"
-        android:textSize="24sp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/tvCreatedOn"
         app:layout_constraintTop_toBottomOf="@+id/tvCreatedOn"
         tools:text="Job Location" />

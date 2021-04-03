@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,23 +10,23 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:ems="10"
+        android:importantForAutofill="no"
         android:inputType="number"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/FinishKM"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/FinishKM"
         app:layout_constraintTop_toTopOf="@+id/FinishKM"
-        android:importantForAutofill="no" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/FinishKM"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_width="63dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="7dp"
         android:text="@string/finish_km"
         app:layout_constraintEnd_toEndOf="@+id/startKM"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/startKM"
         app:layout_constraintTop_toBottomOf="@+id/startKM" />
 
@@ -38,11 +37,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:text="@string/location"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etTitle"
@@ -50,34 +49,34 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:text="@string/title"
         app:layout_constraintEnd_toEndOf="@+id/etLocation"
         app:layout_constraintStart_toStartOf="@+id/etLocation"
-        app:layout_constraintTop_toBottomOf="@+id/etLocation"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/etLocation" />
 
     <EditText
         android:id="@+id/etJobDescription"
-        android:layout_width="0dp"
+        android:layout_width="395dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:ems="10"
         android:gravity="start|top"
         android:hint="@string/job_description"
+        android:importantForAutofill="no"
         android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/etTitle"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/etTitle"
-        app:layout_constraintTop_toBottomOf="@+id/etTitle"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/etTitle" />
 
     <TextView
         android:id="@+id/startKM"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="54dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="@string/start_km"
         app:layout_constraintStart_toEndOf="@+id/etLocation"
         app:layout_constraintTop_toTopOf="parent" />
@@ -87,14 +86,15 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:ems="10"
+        android:importantForAutofill="no"
         android:inputType="number"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/startKM"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/startKM"
         app:layout_constraintTop_toTopOf="@+id/startKM"
-        android:importantForAutofill="no" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/btStartJob"
@@ -102,9 +102,9 @@
         android:layout_height="70dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:textSize="10sp"
         android:background="@drawable/circle_shape"
         android:text="@string/start_job"
+        android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
