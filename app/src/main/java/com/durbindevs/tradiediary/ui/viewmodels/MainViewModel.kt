@@ -1,6 +1,7 @@
 package com.durbindevs.tradiediary.ui.viewmodels
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.durbindevs.tradiediary.models.Jobs
@@ -9,6 +10,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: Repository): ViewModel() {
 
+    val jobData:  MutableLiveData<Jobs> = MutableLiveData()
     val readData: LiveData<List<Jobs>> = repository.db.getJobsDao().getJobs()
 
     fun saveJob(job: Jobs) =

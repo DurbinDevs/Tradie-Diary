@@ -3,6 +3,7 @@ package com.durbindevs.tradiediary.adapter
 import android.content.Context
 import android.text.format.DateUtils
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -10,9 +11,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.durbindevs.tradiediary.databinding.JobRowBinding
 import com.durbindevs.tradiediary.models.Jobs
 
-class JobAdapter(private val context: Context) : RecyclerView.Adapter<JobAdapter.JobViewHolder>() {
+class JobAdapter(
+    private val context: Context,
+    private val listener: OnItemClickListener
+) : RecyclerView.Adapter<JobAdapter.JobViewHolder>() {
 
-    inner class JobViewHolder(val binding: JobRowBinding, ) : RecyclerView.ViewHolder(binding.root)
+    inner class JobViewHolder(val binding: JobRowBinding) : RecyclerView.ViewHolder(binding.root),
+        View.OnClickListener {
+        init {
+            val itemView = binding.root
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(position)
+            }
+        }
+    }
 
 
     private val diffCallBack = object : DiffUtil.ItemCallback<Jobs>() {
@@ -23,6 +40,10 @@ class JobAdapter(private val context: Context) : RecyclerView.Adapter<JobAdapter
         override fun areContentsTheSame(oldItem: Jobs, newItem: Jobs): Boolean {
             return oldItem == newItem
         }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
     }
 
     val differ = AsyncListDiffer(this, diffCallBack)
@@ -55,10 +76,6 @@ class JobAdapter(private val context: Context) : RecyclerView.Adapter<JobAdapter
     }
 
     override fun getItemCount() = differ.currentList.size
-
-//    fun setOnItemClickListener(listener: (Jobs) -> Unit) {
-//        onItemClickListener = listener
-//    }
 
 }
 
