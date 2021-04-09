@@ -6,7 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.map
 import com.durbindevs.tradiediary.JobActivity
 import com.durbindevs.tradiediary.databinding.EditJobFragmentBinding
 import com.durbindevs.tradiediary.ui.viewmodels.MainViewModel
@@ -30,19 +31,11 @@ class EditJobFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as JobActivity).viewModel
 
+         val job =  viewModel.readData.map { it }.asFlow()
+        Log.d("test", "??${job}")
 
 
-        val jobs = viewModel.readData.value
-        Log.d("test", "???${jobs}")
-        viewModel.jobData.observe(viewLifecycleOwner, Observer { data ->
-            data.let {
-                binding.apply {
-                    locationEdit.setText(it.location)
-                    binding.titleEdit.setText(it.title)
-                    Log.d("test", "??${it.title}")
-                }
-            }
-        })
+
 
 //     val jobs = viewModel.jobData.value
 //

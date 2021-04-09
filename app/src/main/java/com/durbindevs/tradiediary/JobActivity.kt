@@ -10,7 +10,9 @@ import com.durbindevs.tradiediary.db.JobsDatabase
 import com.durbindevs.tradiediary.repository.Repository
 import com.durbindevs.tradiediary.ui.viewmodels.MainViewModel
 import com.durbindevs.tradiediary.ui.viewmodels.MainViewModelProvider
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class JobActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityJobBinding
