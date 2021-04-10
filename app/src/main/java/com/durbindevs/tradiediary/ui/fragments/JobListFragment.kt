@@ -2,6 +2,7 @@ package com.durbindevs.tradiediary.ui.fragments
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -11,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.durbindevs.tradiediary.JobActivity
 import com.durbindevs.tradiediary.R
 import com.durbindevs.tradiediary.adapter.JobAdapter
 import com.durbindevs.tradiediary.databinding.JobListFragmentBinding
@@ -21,9 +23,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class JobListFragment: Fragment(), JobAdapter.OnItemClickListener {
 
-    private val viewModel: MainViewModel by viewModels()
+   private val viewModel: MainViewModel by viewModels()
     private val jobAdapter by lazy { JobAdapter(requireContext(), this) }
-  //  private lateinit var viewModel: MainViewModel
     private var _binding : JobListFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -40,17 +41,19 @@ class JobListFragment: Fragment(), JobAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       // viewModel = (activity as JobActivity).viewModel
+//       viewModel = (activity as JobActivity).viewModel
         setupRecycler()
 
         binding.btAddJob.setOnClickListener {
             findNavController().navigate(JobListFragmentDirections.actionJobListFragmentToAddJobFragment())
         }
 
-   viewModel.readData.observe(viewLifecycleOwner, Observer { jobs ->
+   viewModel.tasks.observe(viewLifecycleOwner, Observer { jobs ->
+       Log.d("test", "reading???????????${jobs}")
             jobAdapter.differ.submitList(jobs)
    })
 
+        setHasOptionsMenu(true)
     }
 
 
@@ -74,7 +77,7 @@ class JobListFragment: Fragment(), JobAdapter.OnItemClickListener {
         val searchView = searchItem.actionView as SearchView
 
         searchView.onQueryTextChanged {
-
+            viewModel.searchQuery.value = it
         }
     }
 

@@ -11,7 +11,8 @@ import com.durbindevs.tradiediary.models.Jobs
 @TypeConverters(Converters::class)
 @Database(
     entities = [Jobs::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class JobsDatabase: RoomDatabase() {
 

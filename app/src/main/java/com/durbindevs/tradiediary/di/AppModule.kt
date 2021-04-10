@@ -3,10 +3,11 @@ package com.durbindevs.tradiediary.di
 import android.app.Application
 import androidx.room.Room
 import com.durbindevs.tradiediary.db.JobsDatabase
+import com.durbindevs.tradiediary.repository.Repository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import javax.inject.Qualifier
@@ -14,7 +15,7 @@ import javax.inject.Singleton
 
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object AppModule {
 
     @Provides
@@ -23,6 +24,7 @@ object AppModule {
     ) = Room.databaseBuilder(app, JobsDatabase::class.java, "jobs_database")
         .fallbackToDestructiveMigration()
         .build()
+
 
     @Provides
     fun provideJobsDao(db: JobsDatabase) = db.getJobsDao()

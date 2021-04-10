@@ -63,7 +63,7 @@ class JobAdapter(
         holder.binding.apply {
             tvCreatedOn.text = DateUtils.getRelativeDateTimeString(
                 context,
-                newJobList.dateCreated.toEpochMilli(),
+                newJobList.dateCreated,
                 DateUtils.MINUTE_IN_MILLIS,
                 DateUtils.FORMAT_NUMERIC_DATE.toLong(),
                 0

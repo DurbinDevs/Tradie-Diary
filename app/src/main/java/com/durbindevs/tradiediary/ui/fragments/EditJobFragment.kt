@@ -11,7 +11,10 @@ import androidx.lifecycle.map
 import com.durbindevs.tradiediary.JobActivity
 import com.durbindevs.tradiediary.databinding.EditJobFragmentBinding
 import com.durbindevs.tradiediary.ui.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class EditJobFragment: Fragment() {
 
     private lateinit var viewModel: MainViewModel
@@ -29,10 +32,10 @@ class EditJobFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as JobActivity).viewModel
+//        viewModel = (activity as JobActivity).viewModel
 
-         val job =  viewModel.readData.map { it }.asFlow()
-        Log.d("test", "??${job}")
+       //  val job =  viewModel.readData.map { it }.asFlow()
+       // Log.d("test", "??${job}")
 
 
 
