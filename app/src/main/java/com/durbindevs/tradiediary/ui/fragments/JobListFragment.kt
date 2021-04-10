@@ -17,6 +17,7 @@ import com.durbindevs.tradiediary.R
 import com.durbindevs.tradiediary.adapter.JobAdapter
 import com.durbindevs.tradiediary.databinding.JobListFragmentBinding
 import com.durbindevs.tradiediary.ui.viewmodels.MainViewModel
+import com.durbindevs.tradiediary.ui.viewmodels.SortOrder
 import com.durbindevs.tradiediary.util.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,6 +44,8 @@ class JobListFragment: Fragment(), JobAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 //       viewModel = (activity as JobActivity).viewModel
         setupRecycler()
+
+        binding
 
         binding.btAddJob.setOnClickListener {
             findNavController().navigate(JobListFragmentDirections.actionJobListFragmentToAddJobFragment())
@@ -84,16 +87,16 @@ class JobListFragment: Fragment(), JobAdapter.OnItemClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_sort_by_name -> {
-
+                viewModel.sortOrder.value = SortOrder.BY_NAME
                 true
             }
             R.id.action_sort_by_date_created -> {
-
+                viewModel.sortOrder.value = SortOrder.BY_DATE
                 true
             }
             R.id.action_hide_completed -> {
                 item.isChecked = !item.isChecked
-
+                viewModel.hideCompleted.value = item.isChecked
                 true
             }
             else -> super.onOptionsItemSelected(item)

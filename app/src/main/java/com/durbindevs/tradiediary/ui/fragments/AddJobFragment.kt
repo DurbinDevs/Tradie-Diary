@@ -48,8 +48,9 @@ class AddJobFragment : Fragment() {
         val description = binding.etJobDescription.text.toString()
         val startKm = binding.etStartKm.text.toString().toInt()
         val finishKm = binding.etFinishKm.text.toString().toInt()
+        val isCompleted = binding.cbIsCompleted.isChecked
 
-        val job = Jobs(location,title,description,0,System.currentTimeMillis(),startKm,finishKm,false)
+        val job = Jobs(location,title,description,0,System.currentTimeMillis(),startKm,finishKm,isCompleted)
         viewModel.saveJob(job)
         Toast.makeText(requireContext(), "Saved Successfully", Toast.LENGTH_SHORT).show()
     }

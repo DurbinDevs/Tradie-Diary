@@ -30,7 +30,7 @@
 
     <item
         android:id="@+id/action_hide_completed"
-        android:checked="true"
+        android:checkable="true"
         android:title="Hide Completed"
         app:showAsAction="never" />
 

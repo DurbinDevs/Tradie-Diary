@@ -1,13 +1,16 @@
 package com.durbindevs.tradiediary.adapter
 
 import android.content.Context
+import android.os.Build
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.durbindevs.tradiediary.R
 import com.durbindevs.tradiediary.databinding.JobRowBinding
 import com.durbindevs.tradiediary.models.Jobs
 
@@ -58,6 +61,7 @@ class JobAdapter(
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: JobViewHolder, position: Int) {
         val newJobList = differ.currentList[position]
         holder.binding.apply {
@@ -70,7 +74,13 @@ class JobAdapter(
             )
             tvJobLocation.text = newJobList.location
             tvJobTitle.text = newJobList.title
-
+            if (newJobList.isCompleted) {
+                ivIsCompleted.setColorFilter(context.getColor(R.color.green))
+            }
+            ivIsCompleted.setOnClickListener {
+                ivIsCompleted.setColorFilter(context.getColor(R.color.green))
+                newJobList.isCompleted = true
+            }
         }
 
     }

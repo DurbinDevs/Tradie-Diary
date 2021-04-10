@@ -43,7 +43,7 @@
         tools:text="Job Location" />
 
     <ImageView
-        android:id="@+id/isCompleted"
+        android:id="@+id/iv_isCompleted"
         android:layout_width="40dp"
         android:layout_height="37dp"
         android:layout_marginTop="8dp"

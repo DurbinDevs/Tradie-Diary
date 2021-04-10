@@ -20,7 +20,7 @@ data class Jobs(
     val dateCreated: Long = System.currentTimeMillis(),
     val startKm: Int = 0,
     val finishKm: Int = 0,
-    val isCompleted: Boolean = false
+    var isCompleted: Boolean = false
 ) : Parcelable {
     val dateCreatedFormat: String
         get() = DateFormat.getDateTimeInstance().format(dateCreated)

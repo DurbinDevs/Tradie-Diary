@@ -2,6 +2,7 @@ package com.durbindevs.tradiediary.repository
 
 import com.durbindevs.tradiediary.db.JobsDatabase
 import com.durbindevs.tradiediary.models.Jobs
+import com.durbindevs.tradiediary.ui.viewmodels.SortOrder
 import dagger.Provides
 import javax.inject.Inject
 
@@ -14,5 +15,6 @@ class Repository @Inject constructor(val db: JobsDatabase) {
     suspend fun deleteJob(job: Jobs) =
         db.getJobsDao().deleteJob(job)
 
-    fun getJobs(searchQuery: String) = db.getJobsDao().getJobs(searchQuery)
+    fun getJobs(searchQuery: String, sortOrder: SortOrder, hideCompleted: Boolean) =
+        db.getJobsDao().getJobs(searchQuery,sortOrder,hideCompleted)
 }

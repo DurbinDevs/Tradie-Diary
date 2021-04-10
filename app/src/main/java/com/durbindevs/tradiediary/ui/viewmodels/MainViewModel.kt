@@ -11,6 +11,7 @@ import com.durbindevs.tradiediary.models.Jobs
 import com.durbindevs.tradiediary.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,9 +23,18 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     val searchQuery = MutableStateFlow("")
+    val sortOrder = MutableStateFlow(SortOrder.BY_NAME)
+    val hideCompleted = MutableStateFlow(false)
 
-    private val taskFlow = searchQuery.flatMapLatest {
-        repository.getJobs(it)
+    private val taskFlow = combine(
+        searchQuery,
+        sortOrder,
+        hideCompleted
+    ){
+        query, sortOder, hideCompleted ->
+        Triple(query, sortOder, hideCompleted)
+    }.flatMapLatest { (query, sortOrder, hideCompleted) ->
+        repository.getJobs(query, sortOrder, hideCompleted)
     }
 
     val tasks = taskFlow.asLiveData()
@@ -40,6 +50,8 @@ class MainViewModel @Inject constructor(
             repository.deleteJob(job)
         }
 
-    fun getJobs(searchQuery: String) = repository.getJobs(searchQuery)
+  //  fun getJobs(searchQuery: String) = repository.getJobs(searchQuery)
 
 }
+
+enum class SortOrder {  BY_NAME, BY_DATE}
