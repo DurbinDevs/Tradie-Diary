@@ -3,6 +3,7 @@ buildscript {
     ext.kotlin_version = "1.4.32"
     ext.hiltAndroidXVersion = "1.0.0-alpha03"
     ext.hiltVersion = "2.33-beta"
+    ext.dataStoreVersion = "1.0.0-alpha02"
     repositories {
         google()
         jcenter()

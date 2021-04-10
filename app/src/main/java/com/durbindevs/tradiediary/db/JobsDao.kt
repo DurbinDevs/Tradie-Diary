@@ -2,8 +2,8 @@ package com.durbindevs.tradiediary.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.durbindevs.tradiediary.SortOrder
 import com.durbindevs.tradiediary.models.Jobs
-import com.durbindevs.tradiediary.ui.viewmodels.SortOrder
 import kotlinx.coroutines.flow.Flow
 
 

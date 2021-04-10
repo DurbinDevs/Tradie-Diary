@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.durbindevs.tradiediary.PreferencesManager
+import com.durbindevs.tradiediary.SortOrder
 import com.durbindevs.tradiediary.db.JobsDao
 import com.durbindevs.tradiediary.models.Jobs
 import com.durbindevs.tradiediary.repository.Repository
@@ -19,22 +21,21 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
    // private val jobsDao: Repository,
-    private val repository: Repository
+    private val repository: Repository,
+    private val preferencesManager: PreferencesManager
 ) : ViewModel() {
 
     val searchQuery = MutableStateFlow("")
-    val sortOrder = MutableStateFlow(SortOrder.BY_NAME)
-    val hideCompleted = MutableStateFlow(false)
+    val preferencesFlow = preferencesManager.preferencesFlow
 
     private val taskFlow = combine(
         searchQuery,
-        sortOrder,
-        hideCompleted
+     preferencesFlow
     ){
-        query, sortOder, hideCompleted ->
-        Triple(query, sortOder, hideCompleted)
-    }.flatMapLatest { (query, sortOrder, hideCompleted) ->
-        repository.getJobs(query, sortOrder, hideCompleted)
+        query, filterPreferences ->
+        Pair(query, filterPreferences)
+    }.flatMapLatest { (query, filterPreferences) ->
+        repository.getJobs(query, filterPreferences.sortOrder, filterPreferences.hideCompleted)
     }
 
     val tasks = taskFlow.asLiveData()
@@ -50,8 +51,15 @@ class MainViewModel @Inject constructor(
             repository.deleteJob(job)
         }
 
+    fun onSortOrderSelected(sortOrder: SortOrder) = viewModelScope.launch {
+        preferencesManager.updateSortOrder(sortOrder)
+    }
+
+    fun onHideCompletedClick(hideCompleted: Boolean) = viewModelScope.launch {
+        preferencesManager.updateHideCompleted(hideCompleted)
+    }
+
   //  fun getJobs(searchQuery: String) = repository.getJobs(searchQuery)
 
 }
 
-enum class SortOrder {  BY_NAME, BY_DATE}

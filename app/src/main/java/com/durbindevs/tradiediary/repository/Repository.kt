@@ -1,8 +1,8 @@
 package com.durbindevs.tradiediary.repository
 
+import com.durbindevs.tradiediary.SortOrder
 import com.durbindevs.tradiediary.db.JobsDatabase
 import com.durbindevs.tradiediary.models.Jobs
-import com.durbindevs.tradiediary.ui.viewmodels.SortOrder
 import dagger.Provides
 import javax.inject.Inject
 

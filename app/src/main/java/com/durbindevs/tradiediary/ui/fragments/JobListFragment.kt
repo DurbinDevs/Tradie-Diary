@@ -9,17 +9,21 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.durbindevs.tradiediary.JobActivity
 import com.durbindevs.tradiediary.R
+import com.durbindevs.tradiediary.SortOrder
 import com.durbindevs.tradiediary.adapter.JobAdapter
 import com.durbindevs.tradiediary.databinding.JobListFragmentBinding
 import com.durbindevs.tradiediary.ui.viewmodels.MainViewModel
-import com.durbindevs.tradiediary.ui.viewmodels.SortOrder
+
 import com.durbindevs.tradiediary.util.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class JobListFragment: Fragment(), JobAdapter.OnItemClickListener {
@@ -82,21 +86,26 @@ class JobListFragment: Fragment(), JobAdapter.OnItemClickListener {
         searchView.onQueryTextChanged {
             viewModel.searchQuery.value = it
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            menu.findItem(R.id.action_hide_completed).isChecked =
+                viewModel.preferencesFlow.first().hideCompleted
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_sort_by_name -> {
-                viewModel.sortOrder.value = SortOrder.BY_NAME
+                viewModel.onSortOrderSelected(SortOrder.BY_NAME)
                 true
             }
             R.id.action_sort_by_date_created -> {
-                viewModel.sortOrder.value = SortOrder.BY_DATE
+                viewModel.onSortOrderSelected(SortOrder.BY_DATE)
                 true
             }
             R.id.action_hide_completed -> {
                 item.isChecked = !item.isChecked
-                viewModel.hideCompleted.value = item.isChecked
+                viewModel.onHideCompletedClick(item.isChecked)
                 true
             }
             else -> super.onOptionsItemSelected(item)
