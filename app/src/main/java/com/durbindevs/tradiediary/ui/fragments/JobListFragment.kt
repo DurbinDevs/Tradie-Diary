@@ -12,16 +12,21 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.durbindevs.tradiediary.JobActivity
 import com.durbindevs.tradiediary.R
 import com.durbindevs.tradiediary.SortOrder
 import com.durbindevs.tradiediary.adapter.JobAdapter
 import com.durbindevs.tradiediary.databinding.JobListFragmentBinding
+import com.durbindevs.tradiediary.models.Jobs
 import com.durbindevs.tradiediary.ui.viewmodels.MainViewModel
 
 import com.durbindevs.tradiediary.util.onQueryTextChanged
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -49,7 +54,6 @@ class JobListFragment: Fragment(), JobAdapter.OnItemClickListener {
 //       viewModel = (activity as JobActivity).viewModel
         setupRecycler()
 
-        binding
 
         binding.btAddJob.setOnClickListener {
             findNavController().navigate(JobListFragmentDirections.actionJobListFragmentToAddJobFragment())
@@ -59,15 +63,50 @@ class JobListFragment: Fragment(), JobAdapter.OnItemClickListener {
        Log.d("test", "reading???????????${jobs}")
             jobAdapter.differ.submitList(jobs)
    })
+        // collect flow from channel for snackBar
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.taskEvents.collect { event ->
+                when (event) {
+                    is MainViewModel.TaskEvent.ShowUndoDeleteMessage -> {
+                        Snackbar.make(requireView(), "Job Deleted", Snackbar.LENGTH_LONG)
+                            .setAction("UNDO") {
+                                viewModel.onUndoDeleteClick(event.job)
+                            }.show()
+                    }
+                }
+            }
+        }
 
         setHasOptionsMenu(true)
+
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0,
+        ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val job = jobAdapter.differ.currentList[viewHolder.adapterPosition]
+                viewModel.onJobSwiped(job)
+            }
+        }).attachToRecyclerView(binding.rvJobList)
     }
 
-
-    override fun onItemClick(position: Int) {
-        Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show()
-        findNavController().navigate(JobListFragmentDirections.actionJobListFragmentToEditJobFragment())
+    override fun onItemClick(job: Jobs) {
+        viewModel.onJobSelected(job)
     }
+
+    override fun onCompleteCircleClick(job: Jobs, isComplete: Boolean) {
+        viewModel.onJobCompleteClick(job, isComplete)
+    }
+//    override fun onItemClick(position: Int) {
+//        Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show()
+//        findNavController().navigate(JobListFragmentDirections.actionJobListFragmentToEditJobFragment())
+//    }
 
 
     private fun setupRecycler() = binding.rvJobList.apply {

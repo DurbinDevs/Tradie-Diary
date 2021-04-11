@@ -12,6 +12,9 @@ class Repository @Inject constructor(val db: JobsDatabase) {
     suspend fun saveJob(job: Jobs) =
         db.getJobsDao().saveJob(job)
 
+    suspend fun update(job: Jobs) =
+        db.getJobsDao().update(job)
+
     suspend fun deleteJob(job: Jobs) =
         db.getJobsDao().deleteJob(job)
 

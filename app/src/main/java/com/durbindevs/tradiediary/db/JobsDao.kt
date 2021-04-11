@@ -25,6 +25,9 @@ interface JobsDao {
     @Query("SELECT * FROM jobs WHERE (isCompleted != :hideCompleted OR isCompleted = 0) AND  location LIKE '%' || :searchQuery || '%' ORDER BY dateCreated")
     fun getJobsBYDate(searchQuery: String, hideCompleted: Boolean): Flow<List<Jobs>>
 
+    @Update
+    suspend fun update(job: Jobs)
+
     @Delete
     suspend fun deleteJob(job: Jobs)
 }

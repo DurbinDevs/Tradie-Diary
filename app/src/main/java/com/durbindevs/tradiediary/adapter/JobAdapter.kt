@@ -19,22 +19,29 @@ class JobAdapter(
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<JobAdapter.JobViewHolder>() {
 
-    inner class JobViewHolder(val binding: JobRowBinding) : RecyclerView.ViewHolder(binding.root),
-        View.OnClickListener {
-        init {
-            val itemView = binding.root
-            itemView.setOnClickListener(this)
-        }
+    inner class JobViewHolder(val binding: JobRowBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        override fun onClick(v: View?) {
-            val position = adapterPosition
-            if (position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(position)
+            init {
+                binding.apply {
+                    root.setOnClickListener {
+                        val position = adapterPosition
+                        if (position != RecyclerView.NO_POSITION){
+                            val job = differ.currentList[position]
+                            listener.onItemClick(job)
+                        }
+                    }
+                    ivIsCompleted.setOnClickListener {
+                        val position = adapterPosition
+                        if (position != RecyclerView.NO_POSITION){
+                            val job = differ.currentList[position]
+                            listener.onCompleteCircleClick(job, isComplete = true)
+                        }
+                    }
+                }
             }
-        }
+
     }
-
-
     private val diffCallBack = object : DiffUtil.ItemCallback<Jobs>() {
         override fun areItemsTheSame(oldItem: Jobs, newItem: Jobs): Boolean {
             return oldItem.id == newItem.id
@@ -45,9 +52,6 @@ class JobAdapter(
         }
     }
 
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
-    }
 
     val differ = AsyncListDiffer(this, diffCallBack)
 
@@ -62,7 +66,7 @@ class JobAdapter(
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    override fun onBindViewHolder(holder: JobViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: JobAdapter.JobViewHolder, position: Int) {
         val newJobList = differ.currentList[position]
         holder.binding.apply {
             tvCreatedOn.text = DateUtils.getRelativeDateTimeString(
@@ -77,15 +81,20 @@ class JobAdapter(
             if (newJobList.isCompleted) {
                 ivIsCompleted.setColorFilter(context.getColor(R.color.green))
             }
-            ivIsCompleted.setOnClickListener {
-                ivIsCompleted.setColorFilter(context.getColor(R.color.green))
-                newJobList.isCompleted = true
-            }
+//            ivIsCompleted.setOnClickListener {
+//                ivIsCompleted.setColorFilter(context.getColor(R.color.green))
+//                newJobList.isCompleted = true
+//            }
         }
 
     }
 
     override fun getItemCount() = differ.currentList.size
 
+
+    interface OnItemClickListener {
+        fun onItemClick(job: Jobs)
+        fun onCompleteCircleClick(job: Jobs, isComplete: Boolean)
+    }
 }
 

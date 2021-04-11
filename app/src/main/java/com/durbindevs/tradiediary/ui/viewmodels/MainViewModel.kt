@@ -12,9 +12,11 @@ import com.durbindevs.tradiediary.db.JobsDao
 import com.durbindevs.tradiediary.models.Jobs
 import com.durbindevs.tradiediary.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,6 +29,9 @@ class MainViewModel @Inject constructor(
 
     val searchQuery = MutableStateFlow("")
     val preferencesFlow = preferencesManager.preferencesFlow
+
+    private val taskEventChannel = Channel<TaskEvent>()
+    val taskEvents = taskEventChannel.receiveAsFlow()
 
     private val taskFlow = combine(
         searchQuery,
@@ -46,10 +51,6 @@ class MainViewModel @Inject constructor(
             repository.saveJob(job)
         }
 
-    fun deleteJob(job: Jobs) =
-        viewModelScope.launch {
-            repository.deleteJob(job)
-        }
 
     fun onSortOrderSelected(sortOrder: SortOrder) = viewModelScope.launch {
         preferencesManager.updateSortOrder(sortOrder)
@@ -59,7 +60,28 @@ class MainViewModel @Inject constructor(
         preferencesManager.updateHideCompleted(hideCompleted)
     }
 
-  //  fun getJobs(searchQuery: String) = repository.getJobs(searchQuery)
+    fun onJobSelected(job: Jobs) {
+
+    }
+
+    fun onJobCompleteClick(job: Jobs, isComplete: Boolean) {
+        viewModelScope.launch {
+            repository.update(job.copy(isCompleted = isComplete))
+        }
+    }
+
+    fun onJobSwiped(job: Jobs) = viewModelScope.launch {
+        repository.deleteJob(job)
+        taskEventChannel.send(TaskEvent.ShowUndoDeleteMessage(job))
+    }
+
+    fun onUndoDeleteClick(job: Jobs) = viewModelScope.launch {
+        repository.saveJob(job)
+    }
+
+  sealed class TaskEvent {
+      data class ShowUndoDeleteMessage( val job: Jobs) : TaskEvent()
+  }
 
 }
 
