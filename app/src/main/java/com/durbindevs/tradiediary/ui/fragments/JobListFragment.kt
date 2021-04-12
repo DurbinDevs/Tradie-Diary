@@ -1,11 +1,13 @@
 package com.durbindevs.tradiediary.ui.fragments
 
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -21,6 +23,7 @@ import com.durbindevs.tradiediary.R
 import com.durbindevs.tradiediary.SortOrder
 import com.durbindevs.tradiediary.adapter.JobAdapter
 import com.durbindevs.tradiediary.databinding.JobListFragmentBinding
+import com.durbindevs.tradiediary.databinding.JobRowBinding
 import com.durbindevs.tradiediary.models.Jobs
 import com.durbindevs.tradiediary.ui.viewmodels.MainViewModel
 import com.durbindevs.tradiediary.util.exhaustive
@@ -39,6 +42,8 @@ class JobListFragment: Fragment(), JobAdapter.OnItemClickListener {
     private val jobAdapter by lazy { JobAdapter(requireContext(), this) }
     private var _binding : JobListFragmentBinding? = null
     private val binding get() = _binding!!
+    private lateinit var searchView: SearchView
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,13 +54,13 @@ class JobListFragment: Fragment(), JobAdapter.OnItemClickListener {
         return binding.root
 
 
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //       viewModel = (activity as JobActivity).viewModel
         setupRecycler()
-
 
         binding.btAddJob.setOnClickListener {
             viewModel.onAddNewJobClick()
@@ -133,7 +138,14 @@ class JobListFragment: Fragment(), JobAdapter.OnItemClickListener {
         inflater.inflate(R.menu.menu_fragment, menu)
 
         val searchItem = menu.findItem(R.id.action_search)
-        val searchView = searchItem.actionView as SearchView
+        searchView = searchItem.actionView as SearchView
+
+        // keeps search tab open when configuration changes
+        val pendingQuery = viewModel.searchQuery.value
+        if (pendingQuery != null && pendingQuery.isNotEmpty()) {
+            searchItem.expandActionView()
+            searchView.setQuery(pendingQuery, false)
+        }
 
         searchView.onQueryTextChanged {
             viewModel.searchQuery.value = it
@@ -171,5 +183,10 @@ class JobListFragment: Fragment(), JobAdapter.OnItemClickListener {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        searchView.setOnQueryTextListener(null)
     }
 }

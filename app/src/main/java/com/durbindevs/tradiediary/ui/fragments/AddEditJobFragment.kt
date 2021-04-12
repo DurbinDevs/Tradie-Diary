@@ -53,6 +53,7 @@ class AddEditJobFragment : Fragment() {
             etStartKm.setText(addEditViewModel.jobStartKm.toString())
             etFinishKm.setText(addEditViewModel.jobFinishKm.toString())
 
+
             etTitle.addTextChangedListener {
                 addEditViewModel.jobTitle = it.toString()
             }

@@ -52,4 +52,25 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_circle"
         android:contentDescription="@string/is_completed_circle" />
+
+    <ImageView
+        android:id="@+id/iv_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_clear"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_isCompleted"
+        app:layout_constraintEnd_toEndOf="@+id/iv_isCompleted"
+        app:layout_constraintStart_toStartOf="@+id/iv_isCompleted"
+        app:layout_constraintTop_toTopOf="@+id/iv_isCompleted" />
+
+    <ImageView
+        android:id="@+id/iv_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_done"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_isCompleted"
+        app:layout_constraintEnd_toEndOf="@+id/iv_isCompleted"
+        app:layout_constraintStart_toStartOf="@+id/iv_isCompleted"
+        app:layout_constraintTop_toTopOf="@+id/iv_isCompleted" />
 </androidx.constraintlayout.widget.ConstraintLayout>

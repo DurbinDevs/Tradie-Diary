@@ -56,6 +56,13 @@ class AddEditTaskViewModel @Inject constructor(
             state.set("jobFinishKm", value) // save value to saved state handle
         }
 
+    var jobCompleted = state.get<Boolean>("jobCompleted") ?: job?.isCompleted ?: false
+        set(value) {
+            field = value
+            state.set("jobCompleted", value)
+        }
+
+
     fun onSaveJobClick() {
         if (jobTitle.isBlank()) {
             showInvalidInputMessage("Field cannot be empty")
@@ -67,7 +74,8 @@ class AddEditTaskViewModel @Inject constructor(
                 location = jobLocation,
                 description = jobDescription,
                 startKm = jobStartKm.toString().toInt(),
-                finishKm = jobFinishKm.toString().toInt()
+                finishKm = jobFinishKm.toString().toInt(),
+                isCompleted = jobCompleted
                 )
             updateJob(updateJob)
         }else{
@@ -76,7 +84,8 @@ class AddEditTaskViewModel @Inject constructor(
                 location = jobLocation,
                 description = jobDescription,
                 startKm = jobStartKm.toString().toInt(),
-                finishKm = jobFinishKm.toString().toInt()
+                finishKm = jobFinishKm.toString().toInt(),
+                isCompleted = jobCompleted
             )
             createJob(newJob)
         }
