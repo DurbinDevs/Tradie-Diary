@@ -4,10 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="ui.fragments.AddEditJobFragment">
 
     <CheckBox
-        android:id="@+id/isCompleted"
+        android:id="@+id/cb_isCompleted"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -17,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/locationEdit"
+        android:id="@+id/etLocation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -29,24 +30,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/isCompleted"
+        app:layout_constraintTop_toBottomOf="@+id/cb_isCompleted"
         android:autofillHints="" />
 
     <EditText
-        android:id="@+id/titleEdit"
+        android:id="@+id/etTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/title"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="@+id/locationEdit"
-        app:layout_constraintStart_toStartOf="@+id/locationEdit"
-        app:layout_constraintTop_toBottomOf="@+id/locationEdit"
+        app:layout_constraintEnd_toEndOf="@+id/etLocation"
+        app:layout_constraintStart_toStartOf="@+id/etLocation"
+        app:layout_constraintTop_toBottomOf="@+id/etLocation"
         android:autofillHints="" />
 
     <EditText
-        android:id="@+id/descEdit"
+        android:id="@+id/etJobDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -54,32 +55,44 @@
         android:ems="10"
         android:hint="@string/description"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="@+id/titleEdit"
-        app:layout_constraintStart_toStartOf="@+id/titleEdit"
-        app:layout_constraintTop_toBottomOf="@+id/titleEdit" />
+        app:layout_constraintEnd_toEndOf="@+id/etTitle"
+        app:layout_constraintStart_toStartOf="@+id/etTitle"
+        app:layout_constraintTop_toBottomOf="@+id/etTitle" />
 
     <EditText
-        android:id="@+id/editStartKm"
+        android:id="@+id/etStartKm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:hint="@string/start_km"
         android:inputType="number"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toStartOf="@+id/descEdit"
-        app:layout_constraintTop_toBottomOf="@+id/descEdit"
+        app:layout_constraintStart_toStartOf="@+id/etJobDescription"
+        app:layout_constraintTop_toBottomOf="@+id/etJobDescription"
         android:importantForAutofill="no" />
 
     <EditText
-        android:id="@+id/editFinishKm"
+        android:id="@+id/etFinishKm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:hint="@string/finish_km"
         android:inputType="number"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toStartOf="@+id/editStartKm"
-        app:layout_constraintTop_toBottomOf="@+id/editStartKm"
+        app:layout_constraintStart_toStartOf="@+id/etStartKm"
+        app:layout_constraintTop_toBottomOf="@+id/etStartKm"
         android:importantForAutofill="no" />
+
+    <Button
+        android:id="@+id/btStartJob"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/circle_shape"
+        android:text="@string/start_job"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

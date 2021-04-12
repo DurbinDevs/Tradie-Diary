@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -22,6 +23,7 @@ import com.durbindevs.tradiediary.adapter.JobAdapter
 import com.durbindevs.tradiediary.databinding.JobListFragmentBinding
 import com.durbindevs.tradiediary.models.Jobs
 import com.durbindevs.tradiediary.ui.viewmodels.MainViewModel
+import com.durbindevs.tradiediary.util.exhaustive
 
 import com.durbindevs.tradiediary.util.onQueryTextChanged
 import com.google.android.material.snackbar.Snackbar
@@ -56,11 +58,11 @@ class JobListFragment: Fragment(), JobAdapter.OnItemClickListener {
 
 
         binding.btAddJob.setOnClickListener {
-            findNavController().navigate(JobListFragmentDirections.actionJobListFragmentToAddJobFragment())
+            viewModel.onAddNewJobClick()
+           // findNavController().navigate(JobListFragmentDirections.actionJobListFragmentToAddJobFragment())
         }
 
    viewModel.tasks.observe(viewLifecycleOwner, Observer { jobs ->
-       Log.d("test", "reading???????????${jobs}")
             jobAdapter.differ.submitList(jobs)
    })
         // collect flow from channel for snackBar
@@ -73,7 +75,18 @@ class JobListFragment: Fragment(), JobAdapter.OnItemClickListener {
                                 viewModel.onUndoDeleteClick(event.job)
                             }.show()
                     }
-                }
+                    is MainViewModel.TaskEvent.NavigateToAddJobScreen -> {
+                        val action = JobListFragmentDirections.actionJobListFragmentToEditJobFragment(null, "Add Job")
+                        findNavController().navigate(action)
+                    }
+                    is MainViewModel.TaskEvent.NavigateToEditTaskScreen -> {
+                        val action = JobListFragmentDirections.actionJobListFragmentToEditJobFragment(event.job, "Edit Job")
+                        findNavController().navigate(action)
+                    }
+                    is MainViewModel.TaskEvent.ShowTaskSavedConfirmation -> {
+                        Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_SHORT).show()
+                    }
+                }.exhaustive
             }
         }
 
@@ -129,6 +142,11 @@ class JobListFragment: Fragment(), JobAdapter.OnItemClickListener {
         viewLifecycleOwner.lifecycleScope.launch {
             menu.findItem(R.id.action_hide_completed).isChecked =
                 viewModel.preferencesFlow.first().hideCompleted
+        }
+
+        setFragmentResultListener("add_edit_request") {_, bundle ->
+            val result = bundle.getInt("add_edit_request")
+            viewModel.onAddEditResult(result)
         }
     }
 

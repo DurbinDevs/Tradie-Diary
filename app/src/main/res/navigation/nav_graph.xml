@@ -16,14 +16,23 @@
     </fragment>
     <fragment
         android:id="@+id/addJobFragment"
-        android:name="com.durbindevs.tradiediary.ui.fragments.AddJobFragment"
-        android:label="Add Job" >
+        android:name="com.durbindevs.tradiediary.ui.fragments.AddEditJobFragment"
+        android:label="{title}" >
         <action
             android:id="@+id/action_addJobFragment_to_jobListFragment"
             app:destination="@id/jobListFragment" />
     </fragment>
     <fragment
         android:id="@+id/editJobFragment"
-        android:name="com.durbindevs.tradiediary.ui.fragments.EditJobFragment"
-        android:label="Edit Job" />
+        android:name="com.durbindevs.tradiediary.ui.fragments.AddEditJobFragment"
+        android:label="{title}" >
+        <argument
+            android:name="job"
+            app:argType="com.durbindevs.tradiediary.models.Jobs"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
 </navigation>

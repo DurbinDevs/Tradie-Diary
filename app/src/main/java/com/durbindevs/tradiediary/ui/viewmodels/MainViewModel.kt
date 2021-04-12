@@ -2,15 +2,15 @@ package com.durbindevs.tradiediary.ui.viewmodels
 
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.durbindevs.tradiediary.ADD_JOB_RESULT_OK
+import com.durbindevs.tradiediary.EDIT_JOB_RESULT_OK
 import com.durbindevs.tradiediary.PreferencesManager
 import com.durbindevs.tradiediary.SortOrder
 import com.durbindevs.tradiediary.db.JobsDao
 import com.durbindevs.tradiediary.models.Jobs
 import com.durbindevs.tradiediary.repository.Repository
+import dagger.assisted.Assisted
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,22 +22,25 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-   // private val jobsDao: Repository,
+    // private val jobsDao: Repository,
     private val repository: Repository,
-    private val preferencesManager: PreferencesManager
+    private val preferencesManager: PreferencesManager,
+    private val state: SavedStateHandle
 ) : ViewModel() {
 
-    val searchQuery = MutableStateFlow("")
+    val searchQuery = state.getLiveData(
+        "searchQuery",
+        ""
+    )                                         // MutableStateFlow("")
     val preferencesFlow = preferencesManager.preferencesFlow
 
     private val taskEventChannel = Channel<TaskEvent>()
     val taskEvents = taskEventChannel.receiveAsFlow()
 
     private val taskFlow = combine(
-        searchQuery,
-     preferencesFlow
-    ){
-        query, filterPreferences ->
+        searchQuery.asFlow(),
+        preferencesFlow
+    ) { query, filterPreferences ->
         Pair(query, filterPreferences)
     }.flatMapLatest { (query, filterPreferences) ->
         repository.getJobs(query, filterPreferences.sortOrder, filterPreferences.hideCompleted)
@@ -60,9 +63,10 @@ class MainViewModel @Inject constructor(
         preferencesManager.updateHideCompleted(hideCompleted)
     }
 
-    fun onJobSelected(job: Jobs) {
-
+    fun onJobSelected(job: Jobs) = viewModelScope.launch {
+        taskEventChannel.send(TaskEvent.NavigateToEditTaskScreen(job))
     }
+
 
     fun onJobCompleteClick(job: Jobs, isComplete: Boolean) {
         viewModelScope.launch {
@@ -79,9 +83,27 @@ class MainViewModel @Inject constructor(
         repository.saveJob(job)
     }
 
-  sealed class TaskEvent {
-      data class ShowUndoDeleteMessage( val job: Jobs) : TaskEvent()
-  }
+    fun onAddNewJobClick() = viewModelScope.launch {
+        taskEventChannel.send(TaskEvent.NavigateToAddJobScreen)
+    }
+
+    fun onAddEditResult(result: Int) {
+        when(result) {
+         ADD_JOB_RESULT_OK -> showJobSavedMessage("Job Saved")
+         EDIT_JOB_RESULT_OK -> showJobSavedMessage("Job Updated")
+        }
+    }
+    private fun showJobSavedMessage(text: String) = viewModelScope.launch {
+        taskEventChannel.send(TaskEvent.ShowTaskSavedConfirmation(text))
+    }
+
+
+    sealed class TaskEvent {
+        object NavigateToAddJobScreen : TaskEvent()
+        data class NavigateToEditTaskScreen(val job: Jobs) : TaskEvent()
+        data class ShowUndoDeleteMessage(val job: Jobs) : TaskEvent()
+        data class ShowTaskSavedConfirmation(val msg: String) : TaskEvent()
+    }
 
 }
 
