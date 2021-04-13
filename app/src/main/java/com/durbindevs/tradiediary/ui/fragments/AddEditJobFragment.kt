@@ -64,10 +64,10 @@ class AddEditJobFragment : Fragment() {
                 addEditViewModel.jobDescription = it.toString()
             }
             etStartKm.addTextChangedListener {
-                addEditViewModel.jobStartKm = it.toString().toInt()
+                addEditViewModel.jobStartKm = it.toString()
             }
             etFinishKm.addTextChangedListener {
-                addEditViewModel.jobFinishKm = it.toString().toInt()
+                addEditViewModel.jobFinishKm = it.toString()
             }
 
         }

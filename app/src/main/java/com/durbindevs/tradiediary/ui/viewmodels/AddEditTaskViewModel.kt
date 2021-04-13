@@ -44,13 +44,13 @@ class AddEditTaskViewModel @Inject constructor(
             state.set("jobDescription", value) // save value to saved state handle
         }
 
-    var jobStartKm = state.get<Int>("jobStartKm") ?: job?.startKm ?: 0
+    var jobStartKm = state.get<String>("jobStartKm") ?: job?.startKm ?: ""
         set(value) {
             field = value
             state.set("jobStartKm", value) // save value to saved state handle
         }
 
-    var jobFinishKm = state.get<Int>("jobFinishKm") ?: job?.finishKm ?: 0
+    var jobFinishKm = state.get<String>("jobFinishKm") ?: job?.finishKm ?: ""
         set(value) {
             field = value
             state.set("jobFinishKm", value) // save value to saved state handle
@@ -73,8 +73,8 @@ class AddEditTaskViewModel @Inject constructor(
                 title = jobTitle,
                 location = jobLocation,
                 description = jobDescription,
-                startKm = jobStartKm.toString().toInt(),
-                finishKm = jobFinishKm.toString().toInt(),
+                startKm = jobStartKm,
+                finishKm = jobFinishKm,
                 isCompleted = jobCompleted
                 )
             updateJob(updateJob)
@@ -83,8 +83,8 @@ class AddEditTaskViewModel @Inject constructor(
                 title = jobTitle,
                 location = jobLocation,
                 description = jobDescription,
-                startKm = jobStartKm.toString().toInt(),
-                finishKm = jobFinishKm.toString().toInt(),
+                startKm = jobStartKm,
+                finishKm = jobFinishKm,
                 isCompleted = jobCompleted
             )
             createJob(newJob)

@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ui.fragments.AddEditJobFragment">
+
 
     <CheckBox
         android:id="@+id/cb_isCompleted"
@@ -17,71 +24,120 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/etLocation"
-        android:layout_width="0dp"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/locationInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:ems="10"
         android:hint="@string/location"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cb_isCompleted"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/cb_isCompleted">
 
-    <EditText
-        android:id="@+id/etTitle"
-        android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/titleInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:ems="10"
+        android:layout_marginEnd="8dp"
         android:hint="@string/title"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="@+id/etLocation"
-        app:layout_constraintStart_toStartOf="@+id/etLocation"
-        app:layout_constraintTop_toBottomOf="@+id/etLocation"
-        android:autofillHints="" />
+        app:layout_constraintEnd_toEndOf="@+id/locationInputLayout"
+        app:layout_constraintStart_toStartOf="@+id/locationInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/locationInputLayout">
 
-    <EditText
-        android:id="@+id/etJobDescription"
-        android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/descriptionInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:autofillHints=""
-        android:ems="10"
+        android:layout_marginEnd="8dp"
         android:hint="@string/description"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="@+id/etTitle"
-        app:layout_constraintStart_toStartOf="@+id/etTitle"
-        app:layout_constraintTop_toBottomOf="@+id/etTitle" />
+        app:layout_constraintEnd_toEndOf="@+id/titleInputLayout"
+        app:layout_constraintStart_toStartOf="@+id/titleInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/titleInputLayout">
 
-    <EditText
-        android:id="@+id/etStartKm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:hint="@string/start_km"
-        android:inputType="number"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toStartOf="@+id/etJobDescription"
-        app:layout_constraintTop_toBottomOf="@+id/etJobDescription"
-        android:importantForAutofill="no" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etJobDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/etFinishKm"
-        android:layout_width="wrap_content"
+        </com.google.android.material.textfield.TextInputEditText>
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/startKmInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+
         android:layout_marginTop="8dp"
+        android:hint="@string/start_km"
+        android:inputType="text"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/descriptionInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionInputLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etStartKm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/finishKmInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+android:paddingBottom="10dp"
+        android:layout_marginBottom="8dp"
         android:hint="@string/finish_km"
-        android:inputType="number"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toStartOf="@+id/etStartKm"
-        app:layout_constraintTop_toBottomOf="@+id/etStartKm"
-        android:importantForAutofill="no" />
+        android:inputType="text"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/startKmInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/startKmInputLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etFinishKm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btStartJob"
@@ -95,4 +151,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="200dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -18,8 +18,8 @@ data class Jobs(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val dateCreated: Long = System.currentTimeMillis(),
-    val startKm: Int = 0,
-    val finishKm: Int = 0,
+    val startKm: String,
+    val finishKm: String,
     var isCompleted: Boolean = false
 ) : Parcelable {
     val dateCreatedFormat: String
