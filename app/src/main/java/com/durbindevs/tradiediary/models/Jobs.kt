@@ -20,6 +20,7 @@ data class Jobs(
     val dateCreated: Long = System.currentTimeMillis(),
     val startKm: String,
     val finishKm: String,
+    val totalKm: String = "0",
     var isCompleted: Boolean = false
 ) : Parcelable {
     val dateCreatedFormat: String

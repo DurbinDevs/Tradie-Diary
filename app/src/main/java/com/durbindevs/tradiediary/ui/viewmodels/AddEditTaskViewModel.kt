@@ -1,5 +1,6 @@
 package com.durbindevs.tradiediary.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,7 +8,6 @@ import com.durbindevs.tradiediary.ADD_JOB_RESULT_OK
 import com.durbindevs.tradiediary.EDIT_JOB_RESULT_OK
 import com.durbindevs.tradiediary.models.Jobs
 import com.durbindevs.tradiediary.repository.Repository
-import dagger.assisted.Assisted
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -44,13 +44,13 @@ class AddEditTaskViewModel @Inject constructor(
             state.set("jobDescription", value) // save value to saved state handle
         }
 
-    var jobStartKm = state.get<String>("jobStartKm") ?: job?.startKm ?: ""
+    var jobStartKm = state.get<String>("jobStartKm") ?: job?.startKm ?: "0"
         set(value) {
             field = value
             state.set("jobStartKm", value) // save value to saved state handle
         }
 
-    var jobFinishKm = state.get<String>("jobFinishKm") ?: job?.finishKm ?: ""
+    var jobFinishKm = state.get<String>("jobFinishKm") ?: job?.finishKm ?: "0"
         set(value) {
             field = value
             state.set("jobFinishKm", value) // save value to saved state handle
@@ -61,6 +61,9 @@ class AddEditTaskViewModel @Inject constructor(
             field = value
             state.set("jobCompleted", value)
         }
+    val jobTotalKm = totalKmCalculation(jobStartKm.toInt(), jobFinishKm.toInt())
+
+
 
 
     fun onSaveJobClick() {
@@ -75,7 +78,8 @@ class AddEditTaskViewModel @Inject constructor(
                 description = jobDescription,
                 startKm = jobStartKm,
                 finishKm = jobFinishKm,
-                isCompleted = jobCompleted
+                isCompleted = jobCompleted,
+                totalKm = jobTotalKm
                 )
             updateJob(updateJob)
         }else{
@@ -85,7 +89,8 @@ class AddEditTaskViewModel @Inject constructor(
                 description = jobDescription,
                 startKm = jobStartKm,
                 finishKm = jobFinishKm,
-                isCompleted = jobCompleted
+                isCompleted = jobCompleted,
+                totalKm = jobTotalKm
             )
             createJob(newJob)
         }
@@ -98,13 +103,23 @@ class AddEditTaskViewModel @Inject constructor(
 
 
     private fun createJob(jobs: Jobs) = viewModelScope.launch {
+
         repository.db.getJobsDao().saveJob(jobs)
         jobEventChannel.send(AddEditJobEvent.NavigateBackWithResult(ADD_JOB_RESULT_OK))
     }
 
     private fun updateJob(jobs: Jobs) = viewModelScope.launch {
+       // Log.d("TAG", "total${jobTotalKm} ")
         repository.db.getJobsDao().update(jobs)
         jobEventChannel.send(AddEditJobEvent.NavigateBackWithResult(EDIT_JOB_RESULT_OK))
+    }
+
+    private fun totalKmCalculation(startKm: Int?, finishKm: Int?): String {
+        var total = finishKm!! - startKm!!
+        if (finishKm < startKm){
+            total = 0
+        }
+        return total.toString()
     }
 
 

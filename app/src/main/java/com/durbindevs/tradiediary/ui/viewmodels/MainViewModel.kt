@@ -49,11 +49,6 @@ class MainViewModel @Inject constructor(
     val tasks = taskFlow.asLiveData()
     //val readData: LiveData<List<Jobs>> = repository.db.getJobsDao().getJobs()
 
-    fun saveJob(job: Jobs) =
-        viewModelScope.launch {
-            repository.saveJob(job)
-        }
-
 
     fun onSortOrderSelected(sortOrder: SortOrder) = viewModelScope.launch {
         preferencesManager.updateSortOrder(sortOrder)

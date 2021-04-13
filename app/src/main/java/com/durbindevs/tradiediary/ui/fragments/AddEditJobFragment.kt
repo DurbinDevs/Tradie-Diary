@@ -15,7 +15,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.durbindevs.tradiediary.JobActivity
 import com.durbindevs.tradiediary.databinding.AddEditJobFragmentBinding
-import com.durbindevs.tradiediary.databinding.AddJobFragmentBinding
 import com.durbindevs.tradiediary.models.Jobs
 import com.durbindevs.tradiediary.ui.viewmodels.AddEditTaskViewModel
 import com.durbindevs.tradiediary.ui.viewmodels.MainViewModel
@@ -54,6 +53,8 @@ class AddEditJobFragment : Fragment() {
             etJobDescription.setText(addEditViewModel.jobDescription)
             etStartKm.setText(addEditViewModel.jobStartKm.toString())
             etFinishKm.setText(addEditViewModel.jobFinishKm.toString())
+            cbIsCompleted.isChecked = addEditViewModel.jobCompleted
+            etTotalKm.setText(addEditViewModel.jobTotalKm)
 
 
 
@@ -71,6 +72,9 @@ class AddEditJobFragment : Fragment() {
             }
             etFinishKm.addTextChangedListener {
                 addEditViewModel.jobFinishKm = it.toString()
+            }
+            cbIsCompleted.setOnCheckedChangeListener{ _, isChecked ->
+                addEditViewModel.jobCompleted = isChecked
             }
 
         }
