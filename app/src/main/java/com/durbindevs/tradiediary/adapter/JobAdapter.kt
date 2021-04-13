@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -22,26 +23,27 @@ class JobAdapter(
     inner class JobViewHolder(val binding: JobRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-            init {
-                binding.apply {
-                    root.setOnClickListener {
-                        val position = adapterPosition
-                        if (position != RecyclerView.NO_POSITION){
-                            val job = differ.currentList[position]
-                            listener.onItemClick(job)
-                        }
+        init {
+            binding.apply {
+                root.setOnClickListener {
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val job = differ.currentList[position]
+                        listener.onItemClick(job)
                     }
-                    ivIsCompleted.setOnClickListener {
-                        val position = adapterPosition
-                        if (position != RecyclerView.NO_POSITION){
-                            val job = differ.currentList[position]
-                            listener.onCompleteCircleClick(job, isComplete = true)
-                        }
+                }
+                ivIsCompleted.setOnClickListener {
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val job = differ.currentList[position]
+                        listener.onCompleteCircleClick(job, isComplete = true)
                     }
                 }
             }
+        }
 
     }
+
     private val diffCallBack = object : DiffUtil.ItemCallback<Jobs>() {
         override fun areItemsTheSame(oldItem: Jobs, newItem: Jobs): Boolean {
             return oldItem.id == newItem.id
@@ -78,13 +80,16 @@ class JobAdapter(
             )
             tvJobLocation.text = newJobList.location
             tvJobTitle.text = newJobList.title
+
+            ivIsCompleted.setOnClickListener {
+                listener.onCompleteCircleClick(newJobList, isComplete = true)
+            }
             if (newJobList.isCompleted) {
                 ivIsCompleted.setColorFilter(context.getColor(R.color.green))
+                ivClear.isVisible = false
+                ivDone.isVisible = true
+
             }
-//            ivIsCompleted.setOnClickListener {
-//                ivIsCompleted.setColorFilter(context.getColor(R.color.green))
-//                newJobList.isCompleted = true
-//            }
         }
 
     }

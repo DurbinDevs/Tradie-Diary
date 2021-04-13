@@ -64,10 +64,10 @@ class AddEditJobFragment : Fragment() {
                 addEditViewModel.jobDescription = it.toString()
             }
             etStartKm.addTextChangedListener {
-                addEditViewModel.jobStartKm = it.toString()
+                addEditViewModel.jobStartKm = it.toString().toInt()
             }
             etFinishKm.addTextChangedListener {
-                addEditViewModel.jobFinishKm = it.toString()
+                addEditViewModel.jobFinishKm = it.toString().toInt()
             }
 
         }
@@ -91,7 +91,7 @@ class AddEditJobFragment : Fragment() {
 
                     }
                     is AddEditTaskViewModel.AddEditJobEvent.ShowInvalidInputText -> {
-                        Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_SHORT)
+                        Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_SHORT).show()
                     }
                 }.exhaustive
             }

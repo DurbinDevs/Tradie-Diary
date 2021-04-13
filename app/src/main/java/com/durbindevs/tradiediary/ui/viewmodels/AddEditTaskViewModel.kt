@@ -44,13 +44,13 @@ class AddEditTaskViewModel @Inject constructor(
             state.set("jobDescription", value) // save value to saved state handle
         }
 
-    var jobStartKm = state.get<Int>("jobStartKm") ?: job?.startKm ?: ""
+    var jobStartKm = state.get<Int>("jobStartKm") ?: job?.startKm ?: 0
         set(value) {
             field = value
             state.set("jobStartKm", value) // save value to saved state handle
         }
 
-    var jobFinishKm = state.get<Int>("jobFinishKm") ?: job?.finishKm ?: ""
+    var jobFinishKm = state.get<Int>("jobFinishKm") ?: job?.finishKm ?: 0
         set(value) {
             field = value
             state.set("jobFinishKm", value) // save value to saved state handle
