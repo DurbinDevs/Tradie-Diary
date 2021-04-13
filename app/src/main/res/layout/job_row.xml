@@ -13,17 +13,18 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:textColor="@color/black"
+        android:textColor="?android:textColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="created date" />
 
     <TextView
+
         android:id="@+id/tvJobTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textColor="@color/black"
+        android:textColor="?android:textColor"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/tvJobLocation"
@@ -35,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textColor="@color/black"
+        android:textColor="?android:textColor"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/tvCreatedOn"
@@ -53,15 +54,6 @@
         app:srcCompat="@drawable/ic_circle"
         android:contentDescription="@string/is_completed_circle" />
 
-    <ImageView
-        android:id="@+id/iv_clear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_clear"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_isCompleted"
-        app:layout_constraintEnd_toEndOf="@+id/iv_isCompleted"
-        app:layout_constraintStart_toStartOf="@+id/iv_isCompleted"
-        app:layout_constraintTop_toTopOf="@+id/iv_isCompleted" />
 
     <ImageView
         android:id="@+id/iv_done"

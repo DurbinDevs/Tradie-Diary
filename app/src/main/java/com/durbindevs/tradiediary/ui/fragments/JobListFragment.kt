@@ -83,6 +83,7 @@ class JobListFragment: Fragment(), JobAdapter.OnItemClickListener {
                     is MainViewModel.TaskEvent.NavigateToAddJobScreen -> {
                         val action = JobListFragmentDirections.actionJobListFragmentToEditJobFragment(null, "Add Job")
                         findNavController().navigate(action)
+
                     }
                     is MainViewModel.TaskEvent.NavigateToEditTaskScreen -> {
                         val action = JobListFragmentDirections.actionJobListFragmentToEditJobFragment(event.job, "Edit Job")

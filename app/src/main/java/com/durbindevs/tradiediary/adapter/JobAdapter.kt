@@ -86,7 +86,6 @@ class JobAdapter(
             }
             if (newJobList.isCompleted) {
                 ivIsCompleted.setColorFilter(context.getColor(R.color.green))
-                ivClear.isVisible = false
                 ivDone.isVisible = true
 
             }

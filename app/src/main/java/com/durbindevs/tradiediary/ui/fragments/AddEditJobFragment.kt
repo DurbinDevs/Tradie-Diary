@@ -1,5 +1,6 @@
 package com.durbindevs.tradiediary.ui.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -43,6 +44,7 @@ class AddEditJobFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -52,6 +54,7 @@ class AddEditJobFragment : Fragment() {
             etJobDescription.setText(addEditViewModel.jobDescription)
             etStartKm.setText(addEditViewModel.jobStartKm.toString())
             etFinishKm.setText(addEditViewModel.jobFinishKm.toString())
+
 
 
             etTitle.addTextChangedListener {
