@@ -1,7 +1,6 @@
 package com.durbindevs.tradiediary.ui.viewmodels
 
-import android.content.Context
-import android.text.format.DateUtils
+
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,17 +9,14 @@ import com.durbindevs.tradiediary.EDIT_JOB_RESULT_OK
 import com.durbindevs.tradiediary.models.Jobs
 import com.durbindevs.tradiediary.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.sql.Date
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEditTaskViewModel @Inject constructor(
-    private val context: Context,
     private val repository: Repository,
     private val state: SavedStateHandle
 ) : ViewModel() {
@@ -70,15 +66,19 @@ class AddEditTaskViewModel @Inject constructor(
 
     var jobCompleteTime = state.get<Long>("jobCompletedTime") ?: job?.dateFinished ?: 0
 
-    var jobDateCreated = state.get<Long>("jobCreatedTime") ?: job?.dateCreated ?: 0
+    private var jobDateCreated = state.get<Long>("jobCreatedTime") ?: job?.dateCreated ?: 0
 
-    var totalTime = completeTime(jobDateCreated, jobCompleteTime)
-    val test = DateUtils.HOUR_IN_MILLIS
-
+    private var totalTime = completeTime(jobDateCreated, jobCompleteTime)
+    val test = String.format(
+        "%02d:%02d",
+        TimeUnit.MILLISECONDS.toHours(totalTime),
+        TimeUnit.MILLISECONDS.toMinutes(totalTime) % TimeUnit.HOURS.toMinutes(1),
+       // TimeUnit.MILLISECONDS.toSeconds(totalTime) % TimeUnit.MINUTES.toSeconds(1)
+    )
 
     fun onSaveJobClick() {
         if (jobTitle.isBlank()) {
-            showInvalidInputMessage("Field cannot be empty")
+            showInvalidInputMessage("Title cannot be empty")
             return
         }
         if (job != null) {
@@ -91,10 +91,10 @@ class AddEditTaskViewModel @Inject constructor(
                 isCompleted = jobCompleted,
                 totalKm = jobTotalKm,
                 dateFinished = jobCompleteTime,
-                totalTime = test.toString()
-                )
+                totalTime = test
+            )
             updateJob(updateJob)
-        }else{
+        } else {
             val newJob = Jobs(
                 title = jobTitle,
                 location = jobLocation,
@@ -114,7 +114,6 @@ class AddEditTaskViewModel @Inject constructor(
     }
 
 
-
     private fun createJob(jobs: Jobs) = viewModelScope.launch {
 
         repository.db.getJobsDao().saveJob(jobs)
@@ -122,21 +121,21 @@ class AddEditTaskViewModel @Inject constructor(
     }
 
     private fun updateJob(jobs: Jobs) = viewModelScope.launch {
-       // Log.d("TAG", "total${jobTotalKm} ")
+        // Log.d("TAG", "total${jobTotalKm} ")
         repository.db.getJobsDao().update(jobs)
         jobEventChannel.send(AddEditJobEvent.NavigateBackWithResult(EDIT_JOB_RESULT_OK))
     }
 
     private fun totalKmCalculation(startKm: Int?, finishKm: Int?): String {
         var total = finishKm!! - startKm!!
-        if (finishKm < startKm){
+        if (finishKm < startKm) {
             total = 0
         }
         return total.toString()
     }
 
-     private fun completeTime(start: Long, finish: Long): Long {
-          return  finish - start
+    private fun completeTime(start: Long, finish: Long): Long {
+        return finish - start
 
     }
 

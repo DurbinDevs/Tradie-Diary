@@ -1,10 +1,8 @@
 package com.durbindevs.tradiediary.di
 
 import android.app.Application
-import android.content.Context
 import androidx.room.Room
 import com.durbindevs.tradiediary.db.JobsDatabase
-import com.durbindevs.tradiediary.repository.Repository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,12 +31,8 @@ object AppModule {
     @ApplicationScope
     @Provides
     @Singleton
-    fun ProvideApplicationScope() = CoroutineScope(SupervisorJob())
+    fun provideApplicationScope() = CoroutineScope(SupervisorJob())
 
-
-    @Singleton
-    @Provides
-    fun provideContext(application: Application): Context = application.applicationContext
 }
 
 @Retention

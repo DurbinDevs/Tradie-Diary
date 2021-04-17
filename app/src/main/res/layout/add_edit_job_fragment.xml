@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context="ui.fragments.AddEditJobFragment">
 
 
@@ -31,21 +31,23 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:textColor="?android:textColor"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="completed date" />
 
         <TextView
             android:id="@+id/CompletedOn"
-            android:text="@string/completed_on"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:text="@string/completed_on"
             android:textColor="?android:textColor"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/etCompletedOn"
             app:layout_constraintEnd_toStartOf="@id/etCompletedOn"
-            app:layout_constraintTop_toTopOf="@id/etCompletedOn"
-            app:layout_constraintBottom_toBottomOf="@id/etCompletedOn"/>
+            app:layout_constraintTop_toTopOf="@id/etCompletedOn" />
 
 
         <TextView
@@ -55,33 +57,23 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:textColor="?android:textColor"
-            app:layout_constraintEnd_toStartOf="@id/minutes"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etCompletedOn"
             tools:text="job time" />
 
         <TextView
             android:id="@+id/JobTime"
-            android:text="@string/job_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-
+            android:text="@string/job_time"
             android:textColor="?android:textColor"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/etJobTime"
             app:layout_constraintEnd_toStartOf="@id/etJobTime"
-            app:layout_constraintTop_toTopOf="@id/etJobTime"
-            app:layout_constraintBottom_toBottomOf="@id/etJobTime"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/minutes"
-            android:text="Minutes"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textColor="?android:textColor"
-            app:layout_constraintBottom_toBottomOf="@id/etJobTime"/>
-
+            app:layout_constraintTop_toTopOf="@id/etJobTime" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/locationInputLayout"
@@ -217,6 +209,7 @@
             </com.google.android.material.textfield.TextInputEditText>
 
         </com.google.android.material.textfield.TextInputLayout>
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"
             android:layout_width="wrap_content"
@@ -233,7 +226,9 @@
             android:clickable="true"
             android:src="@drawable/ic_done"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:focusable="true"
+            android:contentDescription="@string/save_button" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
