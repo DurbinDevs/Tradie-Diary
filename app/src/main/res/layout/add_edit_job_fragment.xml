@@ -24,6 +24,64 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/etCompletedOn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="?android:textColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="completed date" />
+
+        <TextView
+            android:id="@+id/CompletedOn"
+            android:text="@string/completed_on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="?android:textColor"
+            app:layout_constraintEnd_toStartOf="@id/etCompletedOn"
+            app:layout_constraintTop_toTopOf="@id/etCompletedOn"
+            app:layout_constraintBottom_toBottomOf="@id/etCompletedOn"/>
+
+
+        <TextView
+            android:id="@+id/etJobTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="?android:textColor"
+            app:layout_constraintEnd_toStartOf="@id/minutes"
+            app:layout_constraintTop_toBottomOf="@id/etCompletedOn"
+            tools:text="job time" />
+
+        <TextView
+            android:id="@+id/JobTime"
+            android:text="@string/job_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+
+            android:textColor="?android:textColor"
+            app:layout_constraintEnd_toStartOf="@id/etJobTime"
+            app:layout_constraintTop_toTopOf="@id/etJobTime"
+            app:layout_constraintBottom_toBottomOf="@id/etJobTime"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/minutes"
+            android:text="Minutes"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="?android:textColor"
+            app:layout_constraintBottom_toBottomOf="@id/etJobTime"/>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/locationInputLayout"

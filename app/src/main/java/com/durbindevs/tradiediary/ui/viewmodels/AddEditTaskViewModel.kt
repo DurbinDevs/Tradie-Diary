@@ -1,6 +1,7 @@
 package com.durbindevs.tradiediary.ui.viewmodels
 
-import android.util.Log
+import android.content.Context
+import android.text.format.DateUtils
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,13 +10,17 @@ import com.durbindevs.tradiediary.EDIT_JOB_RESULT_OK
 import com.durbindevs.tradiediary.models.Jobs
 import com.durbindevs.tradiediary.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.sql.Date
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEditTaskViewModel @Inject constructor(
+    private val context: Context,
     private val repository: Repository,
     private val state: SavedStateHandle
 ) : ViewModel() {
@@ -63,7 +68,12 @@ class AddEditTaskViewModel @Inject constructor(
         }
     val jobTotalKm = totalKmCalculation(jobStartKm.toInt(), jobFinishKm.toInt())
 
+    var jobCompleteTime = state.get<Long>("jobCompletedTime") ?: job?.dateFinished ?: 0
 
+    var jobDateCreated = state.get<Long>("jobCreatedTime") ?: job?.dateCreated ?: 0
+
+    var totalTime = completeTime(jobDateCreated, jobCompleteTime)
+    val test = DateUtils.HOUR_IN_MILLIS
 
 
     fun onSaveJobClick() {
@@ -79,7 +89,9 @@ class AddEditTaskViewModel @Inject constructor(
                 startKm = jobStartKm,
                 finishKm = jobFinishKm,
                 isCompleted = jobCompleted,
-                totalKm = jobTotalKm
+                totalKm = jobTotalKm,
+                dateFinished = jobCompleteTime,
+                totalTime = test.toString()
                 )
             updateJob(updateJob)
         }else{
@@ -90,7 +102,8 @@ class AddEditTaskViewModel @Inject constructor(
                 startKm = jobStartKm,
                 finishKm = jobFinishKm,
                 isCompleted = jobCompleted,
-                totalKm = jobTotalKm
+                totalKm = jobTotalKm,
+                dateFinished = jobCompleteTime
             )
             createJob(newJob)
         }
@@ -120,6 +133,11 @@ class AddEditTaskViewModel @Inject constructor(
             total = 0
         }
         return total.toString()
+    }
+
+     private fun completeTime(start: Long, finish: Long): Long {
+          return  finish - start
+
     }
 
 

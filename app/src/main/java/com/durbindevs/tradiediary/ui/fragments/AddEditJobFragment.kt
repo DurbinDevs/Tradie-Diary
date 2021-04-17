@@ -2,11 +2,13 @@ package com.durbindevs.tradiediary.ui.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -24,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import androidx.fragment.app.setFragmentResult
 import java.time.Instant
+import kotlin.time.days
 
 @AndroidEntryPoint
 class AddEditJobFragment : Fragment() {
@@ -55,8 +58,23 @@ class AddEditJobFragment : Fragment() {
             etFinishKm.setText(addEditViewModel.jobFinishKm.toString())
             cbIsCompleted.isChecked = addEditViewModel.jobCompleted
             etTotalKm.setText(addEditViewModel.jobTotalKm)
+            etCompletedOn.text = DateUtils.getRelativeDateTimeString(
+                context,
+                addEditViewModel.jobCompleteTime!!,
+                DateUtils.MINUTE_IN_MILLIS,
+                DateUtils.FORMAT_NUMERIC_DATE.toLong(),
+                0
+            )
+            etJobTime.text = addEditViewModel.test.toString()
 
+       //     if (addEditViewModel.totalTime >= )
 
+            if (addEditViewModel.jobCompleted){
+                etCompletedOn.isVisible = true
+                CompletedOn.isVisible = true
+                etJobTime.isVisible = true
+                JobTime.isVisible = true
+            }
 
             etTitle.addTextChangedListener {
                 addEditViewModel.jobTitle = it.toString()
@@ -75,6 +93,7 @@ class AddEditJobFragment : Fragment() {
             }
             cbIsCompleted.setOnCheckedChangeListener{ _, isChecked ->
                 addEditViewModel.jobCompleted = isChecked
+                addEditViewModel.jobCompleteTime = System.currentTimeMillis()
             }
 
         }

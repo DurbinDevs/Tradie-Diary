@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.durbindevs.tradiediary.R
 import com.durbindevs.tradiediary.databinding.JobRowBinding
 import com.durbindevs.tradiediary.models.Jobs
+import java.util.*
 
 class JobAdapter(
     private val context: Context,
@@ -79,7 +80,14 @@ class JobAdapter(
                 0
             )
             tvJobLocation.text = newJobList.location
-            tvJobTitle.text = newJobList.title
+            etJobTitle.text = newJobList.title
+            tvCompletedOn.text = DateUtils.getRelativeDateTimeString(
+                context,
+                newJobList.dateFinished,
+                DateUtils.MINUTE_IN_MILLIS,
+                DateUtils.FORMAT_NUMERIC_DATE.toLong(),
+                0
+            )
 
             ivIsCompleted.setOnClickListener {
                 listener.onCompleteCircleClick(newJobList, isComplete = true)
@@ -87,6 +95,8 @@ class JobAdapter(
             if (newJobList.isCompleted) {
                 ivIsCompleted.setColorFilter(context.getColor(R.color.green))
                 ivDone.isVisible = true
+                tvCompletedOn.isVisible = true
+                CompletedOn.isVisible = true
 
             }
         }
